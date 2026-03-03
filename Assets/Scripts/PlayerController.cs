@@ -20,6 +20,14 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
+
     void OnMove(InputValue value)
     {
         Vector2 inputVector = value.Get<Vector2>();
