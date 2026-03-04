@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 10.0f;
     private int count;
     public TextMeshProUGUI countText;
+    public TextMeshProUGUI winText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,9 +35,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+            winText.gameObject.SetActive(true);
+            winText.text = "You Lose!";
+        }
+    }
+
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
+        if (count >= 10)
+        {
+            winText.gameObject.SetActive(true);
+            winText.text = "You Win!";
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                Destroy(enemy);
+            }
+        }
     }
 
     void OnMove(InputValue value)
